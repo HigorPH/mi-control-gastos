@@ -17,7 +17,13 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json()); // Para parsear JSON
 app.use(express.urlencoded({ extended: false })); // Para parsear webhooks de Twilio
-// Vercel sirve automáticamente la carpeta public, por lo que no necesitamos express.static aquí.
+// Servir archivos estáticos desde la carpeta public
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Ruta principal para asegurar que cargue la interfaz web
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+});
 
 // --- RUTAS DE LA API ---
 
