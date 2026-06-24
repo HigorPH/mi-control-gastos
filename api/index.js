@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const db = require('./database');
+const db = require('../database');
 const path = require('path');
 const twilio = require('twilio');
 const ExcelJS = require('exceljs');
@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json()); // Para parsear JSON
 app.use(express.urlencoded({ extended: false })); // Para parsear webhooks de Twilio
-app.use(express.static(path.join(__dirname, 'public'))); // Servir archivos estáticos
+// Vercel sirve automáticamente la carpeta public, por lo que no necesitamos express.static aquí.
 
 // --- RUTAS DE LA API ---
 
