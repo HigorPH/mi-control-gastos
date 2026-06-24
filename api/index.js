@@ -152,6 +152,15 @@ app.post('/api/webhook/whatsapp', (req, res) => {
     });
 });
 
+// Comodín para debuggear rutas
+app.use('*', (req, res) => {
+    res.status(404).json({ 
+        error: "Ruta no encontrada", 
+        url: req.url, 
+        originalUrl: req.originalUrl 
+    });
+});
+
 // --- VERCEL CRON JOBS (Reemplazo de node-cron) ---
 
 // 1. Revisión Diaria

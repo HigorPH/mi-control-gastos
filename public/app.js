@@ -21,10 +21,20 @@ fechaEl.valueAsDate = new Date();
 async function getTransactions() {
     try {
         const res = await fetch(API_URL);
-        const data = await res.json();
-        const transactions = data.data;
-        updateDOM(transactions);
+        const text = await res.text();
+        try {
+            const data = JSON.parse(text);
+            if (data.error) {
+                listEl.innerHTML = `<li style="color:red">Error del Backend: ${data.error} | URL: ${data.url || ''}</li>`;
+                return;
+            }
+            const transactions = data.data || [];
+            updateDOM(transactions);
+        } catch (e) {
+            listEl.innerHTML = `<li style="color:red">Error JSON: ${e.message}<br>Respuesta: ${text}</li>`;
+        }
     } catch (error) {
+        listEl.innerHTML = `<li style="color:red">Error de Red: ${error.message}</li>`;
         console.error('Error fetching transactions:', error);
     }
 }
