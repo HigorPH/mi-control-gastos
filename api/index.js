@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: false })); // Para parsear webhooks de Tw
 // --- RUTAS DE LA API ---
 
 // 1. Obtener todas las transacciones
-app.get('/api/transacciones', (req, res) => {
+app.get(['/api/transacciones', '/transacciones'], (req, res) => {
     const sql = "SELECT * FROM transacciones ORDER BY fecha DESC";
     db.all(sql, [], (err, rows) => {
         if (err) {
@@ -35,7 +35,7 @@ app.get('/api/transacciones', (req, res) => {
 });
 
 // 2. Crear una nueva transacción
-app.post('/api/transacciones', (req, res) => {
+app.post(['/api/transacciones', '/transacciones'], (req, res) => {
     const { tipo, monto, categoria, fecha, descripcion } = req.body;
     
     // Validación básica
@@ -58,7 +58,7 @@ app.post('/api/transacciones', (req, res) => {
 });
 
 // 3. Eliminar una transacción
-app.delete('/api/transacciones/:id', (req, res) => {
+app.delete(['/api/transacciones/:id', '/transacciones/:id'], (req, res) => {
     const id = req.params.id;
     const sql = 'DELETE FROM transacciones WHERE id = ?';
 
@@ -71,7 +71,7 @@ app.delete('/api/transacciones/:id', (req, res) => {
 });
 
 // 4. Exportar transacciones a Excel
-app.get('/api/exportar', (req, res) => {
+app.get(['/api/exportar', '/exportar'], (req, res) => {
     const sql = "SELECT * FROM transacciones ORDER BY fecha DESC";
     db.all(sql, [], async (err, rows) => {
         if (err) {
@@ -112,7 +112,7 @@ app.get('/api/exportar', (req, res) => {
 // 5. Webhook para recibir mensajes de WhatsApp (Chatbot)
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
-app.post('/api/webhook/whatsapp', (req, res) => {
+app.post(['/api/webhook/whatsapp', '/webhook/whatsapp'], (req, res) => {
     const mensajeEntrante = req.body.Body.trim();
     const numeroRemitente = req.body.From;
 
@@ -152,19 +152,10 @@ app.post('/api/webhook/whatsapp', (req, res) => {
     });
 });
 
-// Comodín para debuggear rutas
-app.use('*', (req, res) => {
-    res.status(404).json({ 
-        error: "Ruta no encontrada", 
-        url: req.url, 
-        originalUrl: req.originalUrl 
-    });
-});
-
 // --- VERCEL CRON JOBS (Reemplazo de node-cron) ---
 
 // 1. Revisión Diaria
-app.get('/api/cron/diario', (req, res) => {
+app.get(['/api/cron/diario', '/cron/diario'], (req, res) => {
     // Seguridad básica (en producción deberías validar un header secreto de Vercel)
     console.log('Ejecutando revisión diaria de gastos desde Vercel Cron...');
     const hoy = new Date().toISOString().split('T')[0];
@@ -178,7 +169,7 @@ app.get('/api/cron/diario', (req, res) => {
 });
 
 // 2. Resumen Mensual (Se ejecuta el día 1 de cada mes a las 10:00 AM)
-app.get('/api/cron/mensual', (req, res) => {
+app.get(['/api/cron/mensual', '/cron/mensual'], (req, res) => {
     console.log('Generando resumen mensual desde Vercel Cron...');
     
     // Calcular el mes anterior
@@ -225,7 +216,7 @@ if (require.main === module) {
 module.exports = app;
 
 // Ruta de prueba para disparar el mensaje manualmente (para que puedas probar)
-app.get('/api/test-whatsapp', (req, res) => {
+app.get(['/api/test-whatsapp', '/test-whatsapp'], (req, res) => {
     enviarRecordatorioWhatsApp();
     res.json({ message: 'Se ha intentado enviar el mensaje de WhatsApp. Revisa la consola del servidor.' });
 });
