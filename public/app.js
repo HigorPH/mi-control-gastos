@@ -94,11 +94,14 @@ function updateDOM(transactions) {
     let totalGastos = 0;
 
     transactions.forEach(t => {
+        // Asegurar que monto es número (defensa contra strings de MySQL/caché)
+        const montoNum = Number(t.monto) || 0;
+
         // Calcular totales
         if (t.tipo === 'ingreso') {
-            totalIngresos += t.monto;
+            totalIngresos += montoNum;
         } else {
-            totalGastos += t.monto;
+            totalGastos += montoNum;
         }
 
         // Crear elemento en la lista
@@ -115,7 +118,7 @@ function updateDOM(transactions) {
                 <span class="transaction-cat-date">${t.categoria} | ${t.fecha}</span>
             </div>
             <div class="transaction-amount-action">
-                <span class="amount ${colorClass}">${sign}$${t.monto.toFixed(2)}</span>
+                <span class="amount ${colorClass}">${sign}$${montoNum.toFixed(2)}</span>
                 <button class="delete-btn" onclick="deleteTransaction(${t.id})">x</button>
             </div>
         `;
@@ -140,7 +143,7 @@ function renderChart(transactions) {
     const gastosData = {};
     transactions.forEach(t => {
         if (t.tipo === 'gasto') {
-            gastosData[t.categoria] = (gastosData[t.categoria] || 0) + t.monto;
+            gastosData[t.categoria] = (gastosData[t.categoria] || 0) + (Number(t.monto) || 0);
         }
     });
 
