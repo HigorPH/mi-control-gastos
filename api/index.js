@@ -28,7 +28,9 @@ app.get('/api/transacciones', (req, res) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
-        res.json({ data: rows });
+        // Convertir monto de string (MySQL DECIMAL) a Number
+        const rowsFixed = rows.map(r => ({ ...r, monto: Number(r.monto) }));
+        res.json({ data: rowsFixed });
     });
 });
 
@@ -90,7 +92,7 @@ app.get('/api/exportar', (req, res) => {
 
         // Añadir filas
         rows.forEach(row => {
-            worksheet.addRow(row);
+            worksheet.addRow({ ...row, monto: Number(row.monto) });
         });
 
         // Estilos básicos
