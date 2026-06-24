@@ -1,0 +1,22 @@
+{
+  "name": "mi-control-gastos",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "exceljs": "^4.4.0",
+    "express": "^5.2.1",
+    "mysql2": "^3.22.5",
+    "node-cron": "^4.5.0",
+    "sqlite3": "^6.0.1",
+    "twilio": "^6.0.2"
+  }
+}

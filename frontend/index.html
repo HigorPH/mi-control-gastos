@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Gastos Personales</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mi Control de Gastos</h1>
+        </header>
+
+        <div class="dashboard">
+            <div class="card">
+                <h3>Balance Total</h3>
+                <p id="balance">$0.00</p>
+            </div>
+            <div class="card">
+                <h3>Ingresos</h3>
+                <p id="ingresos" class="money-plus">+$0.00</p>
+            </div>
+            <div class="card">
+                <h3>Gastos</h3>
+                <p id="gastos" class="money-minus">-$0.00</p>
+            </div>
+        </div>
+
+        <div class="actions-bar" style="text-align: right; margin-bottom: 20px;">
+            <button id="btn-exportar" style="width: auto; background-color: #217346; color: white; padding: 10px 20px;">⬇️ Exportar a Excel</button>
+        </div>
+
+        <div class="charts-container" style="background-color: var(--card-bg); padding: 20px; border-radius: 12px; margin-bottom: 30px;">
+            <h3 style="text-align: center; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">Distribución de Gastos</h3>
+            <div style="width: 100%; max-width: 350px; margin: 0 auto;">
+                <canvas id="gastosChart"></canvas>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="form-container">
+                <h3>Añadir Nueva Transacción</h3>
+                <form id="form">
+                    <div class="form-group">
+                        <label for="tipo">Tipo</label>
+                        <select id="tipo" required>
+                            <option value="gasto">Gasto</option>
+                            <option value="ingreso">Ingreso</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="monto">Monto</label>
+                        <input type="number" id="monto" placeholder="Ej. 150" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoria">Categoría</label>
+                        <select id="categoria" required>
+                            <option value="Comida">Comida</option>
+                            <option value="Transporte">Transporte</option>
+                            <option value="Servicios">Servicios (Luz, Agua, Internet)</option>
+                            <option value="Sueldo">Sueldo / Ingresos</option>
+                            <option value="Ocio">Ocio / Entretenimiento</option>
+                            <option value="Otros">Otros</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Fecha</label>
+                        <input type="date" id="fecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripción</label>
+                        <input type="text" id="descripcion" placeholder="Ej. Cena con amigos" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Añadir Transacción</button>
+                </form>
+            </div>
+
+            <div class="history">
+                <h3>Historial</h3>
+                <ul id="lista-transacciones" class="transaction-list">
+                    <!-- Las transacciones se cargarán aquí por JavaScript -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
