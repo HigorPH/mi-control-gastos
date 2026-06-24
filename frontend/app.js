@@ -10,7 +10,7 @@ const fechaEl = document.getElementById('fecha');
 const descripcionEl = document.getElementById('descripcion');
 const btnExportar = document.getElementById('btn-exportar');
 
-const API_URL = 'http://localhost:3000/api/transacciones';
+const API_URL = '/api/transacciones';
 
 let myChart = null;
 
@@ -177,7 +177,7 @@ form.addEventListener('submit', addTransaction);
 
 btnExportar.addEventListener('click', () => {
     // Abrir la ruta de exportación en una nueva pestaña forzará la descarga del Excel
-    window.open('http://localhost:3000/api/exportar', '_blank');
+    window.open('/api/exportar', '_blank');
 });
 
 // Init
