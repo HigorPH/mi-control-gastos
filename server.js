@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json()); // Para parsear JSON
 app.use(express.urlencoded({ extended: false })); // Para parsear webhooks de Twilio
-app.use(express.static(path.join(__dirname, 'frontend'))); // Servir archivos estáticos
+app.use(express.static(path.join(__dirname, 'public'))); // Servir archivos estáticos
 
 // --- RUTAS DE LA API ---
 
