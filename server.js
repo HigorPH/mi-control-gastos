@@ -141,7 +141,8 @@ app.post('/api/webhook/whatsapp', (req, res) => {
     const sql = `INSERT INTO transacciones (tipo, monto, categoria, fecha, descripcion) VALUES (?, ?, ?, ?, ?)`;
     db.run(sql, [tipo, monto, categoria, fecha, descripcion], function(err) {
         if (err) {
-            twiml.message('❌ Hubo un error al guardar en la base de datos.');
+            console.error('SQL Error:', err);
+            twiml.message(`❌ Hubo un error al guardar en la base de datos: ${err.message}`);
         } else {
             twiml.message(`✅ ¡Listo! Guardé un ${tipo} por $${monto} en la categoría "${categoria}".`);
         }
