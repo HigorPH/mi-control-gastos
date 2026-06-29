@@ -28,13 +28,27 @@ connection.getConnection((err, conn) => {
                 descripcion TEXT
             )
         `;
-        
         conn.query(createTableQuery, (err) => {
             if (err) {
                 console.error('Error al crear la tabla transacciones:', err.message);
             } else {
                 console.log('Tabla transacciones lista en MySQL.');
             }
+
+        // Crear tabla para el historial de Yapes
+        const createYapesTable = `
+            CREATE TABLE IF NOT EXISTS historial_yapes (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                nombre_remitente VARCHAR(100) NOT NULL,
+                monto DECIMAL(10, 2) NOT NULL,
+                fecha DATETIME NOT NULL,
+                texto_original TEXT
+            )
+        `;
+        conn.query(createYapesTable, (err) => {
+            if (err) console.error('Error al crear tabla yapes:', err.message);
+            else console.log('Tabla historial_yapes lista en MySQL.');
+        });
             conn.release();
         });
     }

@@ -158,6 +158,39 @@ app.post(['/api/webhook/whatsapp', '/webhook/whatsapp'], (req, res) => {
     });
 });
 
+
+//                                                              RUTAS PARA ALARMA DE YAPE
+
+// Guardar un nuevo Yape enviado desde el celular Android
+app.post(['/api/yapes', '/yapes'], (req, res) => {
+    const { nombre_remitente, monto, texto_original } = req.body;
+    
+    if (!nombre_remitente || monto === undefined) {
+        return res.status(400).json({ error: 'Faltan datos del Yape' });
+    }
+    // Usamos la hora exacta en la que llega al servidor
+    const fecha = new Date().toISOString().slice(0, 19).replace('T', ' '); 
+    
+    const sql = `INSERT INTO historial_yapes (nombre_remitente, monto, fecha, texto_original) VALUES (?, ?, ?, ?)`;
+    
+    db.run(sql, [nombre_remitente, monto, fecha, texto_original], function(err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ message: 'Yape registrado con éxito', id: this.lastID });
+    });
+});
+// Leer los Yapes para mostrarlos en la página web
+app.get(['/api/yapes', '/yapes'], (req, res) => {
+    const sql = "SELECT * FROM historial_yapes ORDER BY fecha DESC";
+    db.all(sql, [], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        
+        // Convertimos el monto a Número real igual que hicimos antes
+        const rowsFixed = rows.map(r => ({ ...r, monto: Number(r.monto) }));
+        res.json({ data: rowsFixed });
+    });
+});
+
+
 // --- VERCEL CRON JOBS (Reemplazo de node-cron) ---
 
 // 1. Revisión Diaria
