@@ -14,8 +14,12 @@ async function cargarYapes() {
         const respuesta = await fetch(API_URL);
         const datos = await respuesta.json();
         
-        todosLosYapes = datos.data || [];
-        dibujarYapes(todosLosYapes);
+        // Si los datos son exactamente iguales a los que ya tenemos, no hacemos nada visualmente
+        const nuevosDatos = datos.data || [];
+        if (JSON.stringify(nuevosDatos) !== JSON.stringify(todosLosYapes)) {
+            todosLosYapes = nuevosDatos;
+            dibujarYapes(todosLosYapes);
+        }
     } catch (error) {
         listaYapes.innerHTML = `<li style="color:red">Error al cargar datos: ${error.message}</li>`;
     }
