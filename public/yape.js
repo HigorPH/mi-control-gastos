@@ -67,4 +67,4 @@ buscador.addEventListener('input', (evento) => {
 
 // Arrancar apenas cargue la página
 // Que la página le pregunte al servidor si hay nuevos yapes cada 5 segundos
-setInterval(cargarYapes, 1000);
+setInterval(cargarYapes);
