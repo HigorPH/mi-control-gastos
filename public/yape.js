@@ -26,20 +26,28 @@ function dibujarYapes(yapesA_Mostrar) {
     listaYapes.innerHTML = ''; // Limpiamos la lista primero
     
     if (yapesA_Mostrar.length === 0) {
-        listaYapes.innerHTML = '<li>No hay yapes registrados aún.</li>';
+        listaYapes.innerHTML = '<li class="yape-item"><div class="yape-info"><span class="yape-name">No hay yapes registrados aún.</span></div></li>';
         return;
     }
 
     // Por cada yape, creamos un nuevo <li>
-    yapesA_Mostrar.forEach(yape => {
+    yapesA_Mostrar.forEach((yape, index) => {
         const li = document.createElement('li');
-        // Formateamos la fecha bonita
+        li.className = 'yape-item';
+        // Añadimos un pequeño retraso a la animación para que entren en cascada
+        li.style.animationDelay = `${index * 0.05}s`;
+        
         const fechaBonita = new Date(yape.fecha).toLocaleString('es-PE');
         
         li.innerHTML = `
-            <strong>${yape.nombre_remitente}</strong> te yapeó 
-            <span style="color: #00d09c; font-weight: bold;">S/ ${yape.monto.toFixed(2)}</span> 
-            <br><small>📅 ${fechaBonita}</small>
+            <div class="yape-info">
+                <span class="yape-name">${yape.nombre_remitente}</span>
+                <span class="yape-date">📅 ${fechaBonita}</span>
+                <span class="yape-raw-text">"${yape.texto_original}"</span>
+            </div>
+            <div class="yape-amount">
+                + S/ ${yape.monto.toFixed(2)}
+            </div>
         `;
         listaYapes.appendChild(li);
     });

@@ -1,29 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Yapes </title>
+    <title>Yape Dashboard | Control de Gastos</title>
+    <!-- Usar fuente premium Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="yape.css">
 </head>
-
 <body>
-    <h1>Dashboard Yapes </h1>
+    <div class="app-container">
+        <!-- Header / Nav -->
+        <nav class="navbar">
+            <div class="logo">
+                <span class="icon">💸</span>
+                <h1>Yape Live</h1>
+            </div>
+            <a href="index.html" class="btn-back">⬅ Volver a Gastos</a>
+        </nav>
 
-    <div>
-        <input type="text" id="buscador" placeholder="Buscar nombre del Yape">
-        <button> Buscar </button>
+        <!-- Main Content -->
+        <main class="dashboard">
+            <!-- Glassmorphism Card for Search -->
+            <div class="glass-card header-card">
+                <h2>Historial de Pagos Recibidos</h2>
+                <p>Todas tus notificaciones de Yape llegan aquí en tiempo real.</p>
+                
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="buscador" placeholder="Busca por nombre de cliente...">
+                </div>
+            </div>
+
+            <!-- List of Yapes -->
+            <div class="yape-feed">
+                <ul id="lista-yapes">
+                    <!-- Loading state skeleton -->
+                    <li class="yape-item loading">
+                        <div class="skeleton avatar"></div>
+                        <div class="skeleton-text">
+                            <div class="skeleton line"></div>
+                            <div class="skeleton line-short"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </main>
     </div>
 
-
-    <h2>Historial de Yapes</h2>
-    <ul id="lista-yapes">
-        <li>Ejemplo: Juan Perez te yapeo $/15.00 </li>
-    </ul>
-
     <script src="yape.js"></script>
-
 </body>
-
-
 </html>
